@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Recuperar Contraseña - Acceso SASA</title>
-  <!-- Carga la librería de Supabase primero -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+  <!-- Load Supabase library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
     .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -24,12 +24,13 @@
   </div>
 
   <script>
-    // Wait for both DOM and Supabase to be ready
-    document.addEventListener("DOMContentLoaded", async function() {
+    document.addEventListener("DOMContentLoaded", function() {
       // Initialize Supabase client
       const supabaseUrl = 'https://xfbmdpxyeombmwqhfzug.supabase.co';
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts';
-      const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+      
+      // Correct way to create the client
+      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       document.getElementById('passwordForm').addEventListener('submit', async (e) => {
         e.preventDefault();
