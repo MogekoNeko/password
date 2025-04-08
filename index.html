@@ -33,10 +33,12 @@
       const email = document.getElementById('email').value;
       const messageDiv = document.getElementById('message');
 
+      console.log("Enviando solicitud para restablecer contraseña para el correo: " + email);
+
       try {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-  redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
-});
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+          redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
+        });
 
         if (error) throw error;
 
@@ -45,12 +47,14 @@
             ¡Enlace enviado! Revisa tu correo electrónico.
           </p>
         `;
+        console.log("Enlace de restablecimiento enviado con éxito");
       } catch (error) {
         messageDiv.innerHTML = `
           <p style="color: red;">
             Error: ${error.message}
           </p>
         `;
+        console.error("Error al enviar enlace de restablecimiento:", error);
       }
     });
   </script>
