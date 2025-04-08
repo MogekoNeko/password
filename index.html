@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Recuperar Contraseña - Acceso SASA</title>
-  <!-- Asegúrate de cargar el script antes de cualquier código que use supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/supabase.min.js"></script>
+  <!-- Carga la librería de Supabase primero -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
     .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -24,37 +24,39 @@
   </div>
 
   <script>
-    // Ahora supabase debe estar disponible al crear el cliente después de cargar el script
-    const supabaseClient = supabase.createClient(
-      'https://xfbmdpxyeombmwqhfzug.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts'
-    );
+    // Asegúrate de que supabase esté disponible cuando lo necesitas
+    document.addEventListener("DOMContentLoaded", function() {
+      // Crear cliente de Supabase después de cargar el script
+      const supabase = window.supabase.createClient(
+        'https://xfbmdpxyeombmwqhfzug.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts'
+      );
 
-    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const messageDiv = document.getElementById('message');
+      document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const messageDiv = document.getElementById('message');
 
-      try {
-        // Usar supabaseClient en lugar de supabase
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-          redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
-        });
+        try {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
+          });
 
-        if (error) throw error;
+          if (error) throw error;
 
-        messageDiv.innerHTML = `
-          <p style="color: green;">
-            ¡Enlace enviado! Revisa tu correo electrónico.
-          </p>
-        `;
-      } catch (error) {
-        messageDiv.innerHTML = `
-          <p style="color: red;">
-            Error: ${error.message}
-          </p>
-        `;
-      }
+          messageDiv.innerHTML = `
+            <p style="color: green;">
+              ¡Enlace enviado! Revisa tu correo electrónico.
+            </p>
+          `;
+        } catch (error) {
+          messageDiv.innerHTML = `
+            <p style="color: red;">
+              Error: ${error.message}
+            </p>
+          `;
+        }
+      });
     });
   </script>
 </body>
