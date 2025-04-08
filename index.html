@@ -34,9 +34,9 @@
       const messageDiv = document.getElementById('message');
 
       try {
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-          redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
-        });
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+  redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
+});
 
         if (error) throw error;
 
