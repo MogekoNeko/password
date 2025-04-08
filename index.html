@@ -35,7 +35,7 @@
       
       try {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: window.location.href + 'update-password.html'
+          redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
         })
         
         if (error) throw error
