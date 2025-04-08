@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Recuperar Contraseña - Acceso SASA</title>
+  <!-- Asegúrate de cargar el script antes de cualquier código que use supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/supabase.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
@@ -23,6 +24,7 @@
   </div>
 
   <script>
+    // Ahora supabase debe estar disponible al crear el cliente después de cargar el script
     const supabaseClient = supabase.createClient(
       'https://xfbmdpxyeombmwqhfzug.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts'
@@ -33,9 +35,8 @@
       const email = document.getElementById('email').value;
       const messageDiv = document.getElementById('message');
 
-      console.log("Enviando solicitud para restablecer contraseña para el correo: " + email);
-
       try {
+        // Usar supabaseClient en lugar de supabase
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
         });
@@ -47,14 +48,12 @@
             ¡Enlace enviado! Revisa tu correo electrónico.
           </p>
         `;
-        console.log("Enlace de restablecimiento enviado con éxito");
       } catch (error) {
         messageDiv.innerHTML = `
           <p style="color: red;">
             Error: ${error.message}
           </p>
         `;
-        console.error("Error al enviar enlace de restablecimiento:", error);
       }
     });
   </script>
