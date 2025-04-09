@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
       * {
-        box-sizing: border-box; /* ¡FIX: Evita que el input se desborde! */
+        box-sizing: border-box;
       }
 
       body {
@@ -19,11 +19,18 @@
 
       header {
         background: linear-gradient(to right, #B2D4F0, #39A2F8);
-        padding: 1rem;
+        padding: 1.5rem 1rem;
         text-align: center;
         color: white;
         font-size: 1.5rem;
         font-weight: bold;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      header img {
+        width: 120px;
+        margin-bottom: 0.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
       }
 
       main {
@@ -61,12 +68,16 @@
         border-radius: 12px;
         font-size: 1rem;
         outline: none;
-        transition: border-color 0.3s;
+        transition: all 0.3s;
       }
 
       input[type="email"]:focus {
         border-color: #2169B1;
-        box-shadow: 0 0 0 2px rgba(33, 105, 177, 0.2); /* Efecto de foco suave */
+        box-shadow: 0 0 0 3px rgba(33, 105, 177, 0.2);
+      }
+
+      input::placeholder {
+        color: #9FC0DB;
       }
 
       button {
@@ -77,24 +88,30 @@
         border: none;
         border-radius: 12px;
         font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
         transition: background-color 0.3s;
-        font-weight: 600;
       }
 
       button:hover {
         background-color: #174f86;
       }
 
+      button:disabled {
+        background-color: #9FC0DB;
+        cursor: not-allowed;
+      }
+
       #message {
-        margin-top: 1rem;
+        margin: 1rem 0;
         font-size: 0.95rem;
         line-height: 1.5;
+        min-height: 3rem;
       }
 
       .back-link {
         display: block;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
         text-align: center;
         color: #2169B1;
         text-decoration: none;
@@ -107,14 +124,17 @@
     </style>
 </head>
 <body>
-    <header>Recuperar contraseña</header>
+    <header>
+      <img src="https://xfbmdpxyeombmwqhfzug.supabase.co/storage/v1/object/public/varias//LOGO_SASA-removebg-preview.png" alt="Logo SASA" />
+      Recuperar contraseña
+    </header>
     <main>
       <div class="card">
         <form id="passwordForm">
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" required placeholder="ejemplo@correo.com" />
 
-          <button type="submit">Enviar enlace de recuperación</button>
+          <button type="submit" id="submitBtn">Enviar enlace de recuperación</button>
         </form>
         <div id="message"></div>
 
@@ -130,9 +150,13 @@
 
       document.getElementById('passwordForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
         const email = document.getElementById('email').value;
         const messageDiv = document.getElementById('message');
-        messageDiv.innerHTML = '<p style="color: #2169B1;">Enviando enlace...</p>';
+        messageDiv.innerHTML = '<p style="color: #2169B1;">Procesando solicitud...</p>';
 
         try {
           const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
@@ -153,6 +177,9 @@
               ✖ Error: ${error.message}
             </p>
           `;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar enlace de recuperación';
         }
       });
     </script>
