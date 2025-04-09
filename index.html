@@ -1,187 +1,193 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>Recuperar Contraseña - Acceso SASA</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+  <meta charset="UTF-8" />
+  <title>Recuperar Contraseña - Acceso SASA</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f6f9fc;
-        color: #2169B1;
-        margin: 0;
-        padding: 0;
-      }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f6f9fc;
+      color: #2169B1;
+      margin: 0;
+      padding: 0;
+    }
 
-      header {
-        background: linear-gradient(to right, #B2D4F0, #39A2F8);
-        padding: 1.5rem 1rem;
-        text-align: center;
-        color: white;
-        font-size: 1.5rem;
-        font-weight: bold;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
+    header {
+      background: linear-gradient(to right, #B2D4F0, #39A2F8);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-      header img {
-        width: 120px;
-        margin-bottom: 0.5rem;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-      }
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      padding: 1rem;
+      flex-direction: column;
+    }
 
-      main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 80vh;
-        padding: 1rem;
-      }
+    .logo {
+      width: 120px;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
 
-      .card {
-        background: white;
-        padding: 2rem;
-        border-radius: 16px;
-        max-width: 400px;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border: 2px solid #9FC0DB;
-        text-align: center;
-      }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 2px solid #9FC0DB;
+      text-align: center;
+    }
 
-      label {
-        display: block;
-        margin-bottom: 0.5rem;
-        text-align: left;
-        font-weight: 500;
-      }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      text-align: left;
+      font-weight: 500;
+    }
 
-      input[type="email"] {
-        width: 100%;
-        padding: 0.75rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
-        border: 2px solid #9FC0DB;
-        border-radius: 12px;
-        font-size: 1rem;
-        outline: none;
-        transition: all 0.3s;
-      }
+    input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 2px solid #9FC0DB;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
 
-      input[type="email"]:focus {
-        border-color: #2169B1;
-        box-shadow: 0 0 0 3px rgba(33, 105, 177, 0.2);
-      }
+    input[type="email"]:focus {
+      border-color: #2169B1;
+      box-shadow: 0 0 0 3px rgba(33, 105, 177, 0.2);
+    }
 
-      input::placeholder {
-        color: #9FC0DB;
-      }
+    input::placeholder {
+      color: #9FC0DB;
+    }
 
-      button {
-        width: 100%;
-        padding: 0.75rem;
-        background-color: #2169B1;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2169B1;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      button:hover {
-        background-color: #174f86;
-      }
+    button:hover {
+      background-color: #174f86;
+    }
 
-      button:disabled {
-        background-color: #9FC0DB;
-        cursor: not-allowed;
-      }
+    button:disabled {
+      background-color: #9FC0DB;
+      cursor: not-allowed;
+    }
 
-      #message {
-        margin: 1rem 0;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        min-height: 3rem;
-      }
+    #message {
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      min-height: 3rem;
+    }
 
-      .back-link {
-        display: block;
-        margin-top: 1.5rem;
-        text-align: center;
-        color: #2169B1;
-        text-decoration: none;
-        font-weight: 500;
-      }
+    .back-link {
+      display: block;
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #2169B1;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-      .back-link:hover {
-        text-decoration: underline;
-      }
-    </style>
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <header>
-      <img src="https://xfbmdpxyeombmwqhfzug.supabase.co/storage/v1/object/public/varias//LOGO_SASA-removebg-preview.png" alt="Logo SASA" />
-      Recuperar contraseña
-    </header>
-    <main>
-      <div class="card">
-        <form id="passwordForm">
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" required placeholder="ejemplo@correo.com" />
+  <header>
+    Recuperar contraseña
+  </header>
 
-          <button type="submit" id="submitBtn">Enviar enlace de recuperación</button>
-        </form>
-        <div id="message"></div>
+  <main>
+    <img
+      src="https://xfbmdpxyeombmwqhfzug.supabase.co/storage/v1/object/public/varias//LOGO_SASA-removebg-preview.png"
+      alt="Logo SASA"
+      class="logo"
+    />
+    <div class="card">
+      <form id="passwordForm">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" required placeholder="ejemplo@correo.com" />
 
-        <a href="https://sasa-acceso-host.web.app/" class="back-link">← Volver a la aplicación</a>
-      </div>
-    </main>
+        <button type="submit" id="submitBtn">Enviar enlace de recuperación</button>
+      </form>
+      <div id="message"></div>
 
-    <script>
-      const supabaseClient = supabase.createClient(
-        'https://xfbmdpxyeombmwqhfzug.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts'
-      );
+      <a href="https://sasa-acceso-host.web.app/" class="back-link">← Volver a la aplicación</a>
+    </div>
+  </main>
 
-      document.getElementById('passwordForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Enviando...';
+  <script>
+    const supabaseClient = supabase.createClient(
+      'https://xfbmdpxyeombmwqhfzug.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmYm1kcHh5ZW9tYm13cWhmenVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1MTQ1NzgsImV4cCI6MjA1NTA5MDU3OH0.Vs6XLyJyE9usvAr0SXsVwekxqPdIsyspXYoqEINQhts'
+    );
 
-        const email = document.getElementById('email').value;
-        const messageDiv = document.getElementById('message');
-        messageDiv.innerHTML = '<p style="color: #2169B1;">Procesando solicitud...</p>';
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
 
-        try {
-          const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
-          });
+      const email = document.getElementById('email').value;
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = '<p style="color: #2169B1;">Procesando solicitud...</p>';
 
-          if (error) throw error;
+      try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+          redirectTo: 'https://mogekoneko.github.io/password/update-password.html'
+        });
 
-          messageDiv.innerHTML = `
-            <p style="color: #4CAF50;">
-              ✔ ¡Enlace enviado! Revisa tu correo: <strong>${email}</strong><br>
-              <small>El enlace expirará en 1 hora.</small>
-            </p>
-          `;
-        } catch (error) {
-          messageDiv.innerHTML = `
-            <p style="color: #f44336;">
-              ✖ Error: ${error.message}
-            </p>
-          `;
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Enviar enlace de recuperación';
-        }
-      });
-    </script>
+        if (error) throw error;
+
+        messageDiv.innerHTML = `
+          <p style="color: #4CAF50;">
+            ✔ ¡Enlace enviado! Revisa tu correo: <strong>${email}</strong><br>
+            <small>El enlace expirará en 1 hora.</small>
+          </p>
+        `;
+      } catch (error) {
+        messageDiv.innerHTML = `
+          <p style="color: #f44336;">
+            ✖ Error: ${error.message}
+          </p>
+        `;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar enlace de recuperación';
+      }
+    });
+  </script>
 </body>
 </html>
