@@ -38,6 +38,12 @@
         width: 100%;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border: 2px solid #9FC0DB;
+        text-align: center;
+      }
+
+      .card img {
+        max-width: 200px;
+        margin-bottom: 1rem;
       }
 
       input[type="email"] {
@@ -93,12 +99,18 @@
     <header>Recuperar contraseña</header>
     <main>
       <div class="card">
+        <img
+          src="https://xfbmdpxyeombmwqhfzug.supabase.co/storage/v1/object/public/varias//LOGO_SASA-removebg-preview.png"
+          alt="Logo SASA"
+        />
+
         <form id="passwordForm">
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" required />
 
           <button type="submit">Enviar enlace de recuperación</button>
         </form>
+
         <div id="message"></div>
 
         <a href="https://sasa-acceso-host.web.app/" class="back-link">Volver a la app</a>
@@ -125,14 +137,19 @@
 
           messageDiv.innerHTML = `
             <p style="color: green;">
-              ¡Enlace enviado! Revisa tu correo electrónico: <strong>${email}</strong><br>
-              <small>El enlace expirará en 1 hora.</small>
+              ✅ ¡Enlace enviado! Revisa tu correo electrónico: <strong>${email}</strong><br>
+              <small>Serás redirigido automáticamente a la aplicación en unos segundos...</small>
             </p>
           `;
+
+          // Redirige automáticamente después de 5 segundos
+          setTimeout(() => {
+            window.location.href = 'https://sasa-acceso-host.web.app/';
+          }, 5000);
         } catch (error) {
           messageDiv.innerHTML = `
             <p style="color: red;">
-              Error: ${error.message}
+              ❌ Error: ${error.message}
             </p>
           `;
         }
